@@ -11,7 +11,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthService } from './modules/auth/services/auth.service';
 import { environment } from 'src/environments/environment';
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 // #fake-start#
 import { FakeAPIService } from './_fake/fake-api.service';
 // #fake-end#
@@ -19,7 +18,7 @@ import { FakeAPIService } from './_fake/fake-api.service';
 function appInitializer(authService: AuthService) {
   return () => {
     return new Promise((resolve) => {
-      //@ts-ignore
+      // @ts-ignore
       authService.getUserByToken().subscribe().add(resolve);
     });
   };
@@ -36,15 +35,14 @@ function appInitializer(authService: AuthService) {
     // #fake-start#
     environment.isMockEnabled
       ? HttpClientInMemoryWebApiModule.forRoot(FakeAPIService, {
-        passThruUnknownUrl: true,
-        dataEncapsulation: false,
-      })
+          passThruUnknownUrl: true,
+          dataEncapsulation: false,
+        })
       : [],
     // #fake-end#
     AppRoutingModule,
     InlineSVGModule.forRoot(),
     NgbModule,
-    SweetAlert2Module.forRoot(),
   ],
   providers: [
     {
@@ -56,4 +54,4 @@ function appInitializer(authService: AuthService) {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

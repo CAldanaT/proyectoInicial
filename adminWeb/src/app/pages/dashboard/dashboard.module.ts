@@ -15,7 +15,7 @@ import { ModalsModule, WidgetsModule } from '../../_metronic/partials';
       },
     ]),
     WidgetsModule,
-    ModalsModule,
+    ModalsModule
   ],
 })
 export class DashboardModule {}

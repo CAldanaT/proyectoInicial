@@ -7,7 +7,7 @@
   </h3>
 
   <ul class="nav nav-line-tabs nav-line-tabs-2x nav-stretch fw-bold px-9">
-    <li class ="nav-item">
+    <li class="nav-item">
       <a
         class="
           nav-link
@@ -74,7 +74,7 @@
             <span class="symbol-label" [ngClass]="'bg-light-' + alert.state">
               <span
                 [inlineSVG]="'./assets/media/' + alert.icon"
-                class="svg-icon fs-2"
+                class="svg-icon svg-icon-2"
                 [ngClass]="'svg-icon-' + alert.state"
               ></span>
             </span>
@@ -98,7 +98,10 @@
         class="btn btn-color-gray-600 btn-active-color-primary"
       >
         View All
-        <app-keenicon name="arrow-right" class="fs-5"></app-keenicon>
+        <span
+          [inlineSVG]="'./assets/media/icons/duotune/arrows/arr064.svg'"
+          class="svg-icon svg-icon-5"
+        ></span>
       </a>
     </div>
   </div>
@@ -169,7 +172,10 @@
         class="btn btn-color-gray-600 btn-active-color-primary"
       >
         View All
-        <app-keenicon name="arrow-right" class="fs-5"></app-keenicon>
+        <span
+          [inlineSVG]="'./assets/media/icons/duotune/arrows/arr064.svg'"
+          class="svg-icon svg-icon-5"
+        ></span>
       </a>
     </div>
   </div>

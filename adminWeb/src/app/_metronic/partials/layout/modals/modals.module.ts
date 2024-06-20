@@ -1,13 +1,12 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {RouterModule} from '@angular/router';
-import {InlineSVGModule} from 'ng-inline-svg-2';
-import {InviteUsersModalComponent} from './invite-users-modal/invite-users-modal.component';
-import {MainModalComponent} from './main-modal/main-modal.component';
-import {UpgradePlanModalComponent} from './upgrade-plan-modal/upgrade-plan-modal.component';
-import {ModalComponent} from './modal/modal.component';
-import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
-import {SharedModule} from "../../../shared/shared.module";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { InlineSVGModule } from 'ng-inline-svg-2';
+import { InviteUsersModalComponent } from './invite-users-modal/invite-users-modal.component';
+import { MainModalComponent } from './main-modal/main-modal.component';
+import { UpgradePlanModalComponent } from './upgrade-plan-modal/upgrade-plan-modal.component';
+import { ModalComponent } from './modal/modal.component';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -16,13 +15,7 @@ import {SharedModule} from "../../../shared/shared.module";
     UpgradePlanModalComponent,
     ModalComponent,
   ],
-  imports: [
-    CommonModule,
-    InlineSVGModule,
-    RouterModule,
-    NgbModalModule,
-    SharedModule,
-  ],
+  imports: [CommonModule, InlineSVGModule, RouterModule, NgbModalModule],
   exports: [
     InviteUsersModalComponent,
     MainModalComponent,
@@ -30,5 +23,4 @@ import {SharedModule} from "../../../shared/shared.module";
     ModalComponent,
   ],
 })
-export class ModalsModule {
-}
+export class ModalsModule {}
