@@ -18,7 +18,6 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist",
-            "showCircularDependencies": false,
             "allowedCommonJsDependencies": [
               "object-path",
               "apexcharts",
@@ -53,7 +52,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -70,24 +68,31 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "demo1-app:build"
           },
-          "configurations": {
+         "configurations": {
             "production": {
-              "browserTarget": "demo1-app:build:production"
+              "buildTarget": "demo1-app:build:production"
+            },
+            "development": {
+              "buildTarget": "demo1-app:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "demo1-app:build"
           }
         },
         "test": {
@@ -135,7 +140,6 @@
       }
     }
   },
-  "defaultProject": "demo1-app",
   "cli": {
     "analytics": false
   }
