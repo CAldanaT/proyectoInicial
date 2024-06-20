@@ -3,26 +3,23 @@ import { environment } from 'src/environments/environment';
 import { BehaviorSubject } from 'rxjs';
 import * as objectPath from 'object-path';
 import {
+  LayoutType,
   ILayout,
-  DefaultLayoutConfig,
-  ILayoutCSSVariables,
-} from './default-layout.config';
+  CSSClassesType,
+  HTMLAttributesType,
+} from './configs/config';
+import { DarkHeaderConfig } from './configs/dark-header.config';
+import { DarkSidebarConfig } from './configs/dark-sidebar.config';
+import { LightHeaderConfig } from './configs/light-header.config';
+import { LightSidebarConfig } from './configs/light-sidebar.config';
+import { ActivatedRoute } from '@angular/router';
 
 const LAYOUT_CONFIG_LOCAL_STORAGE_KEY = `${environment.appVersion}-layoutConfig`;
+const BASE_LAYOUT_TYPE_LOCAL_STORAGE_KEY = `${environment.appVersion}-baseLayoutType`;
+const defaultBaseLayoutType: LayoutType = 'dark-sidebar';
+const defaultLayoutConfig: ILayout = DarkSidebarConfig;
 
-export type LayoutType = ILayout | undefined;
-
-export const getEmptyCSSVariables = (): ILayoutCSSVariables => {
-  return {
-    body: new Map(),
-  };
-};
-
-export function getEmptyHTMLAttributes(): {
-  [key: string]: {
-    [attrName: string]: string | boolean;
-  };
-} {
+export function getEmptyHTMLAttributes(): HTMLAttributesType {
   return {
     asideMenu: {},
     headerMobile: {},
@@ -32,9 +29,7 @@ export function getEmptyHTMLAttributes(): {
   };
 }
 
-export function getEmptyCssClasses(): {
-  [key: string]: string[];
-} {
+export function getEmptyCssClasses(): CSSClassesType {
   return {
     header: [],
     headerContainer: [],
@@ -50,6 +45,7 @@ export function getEmptyCssClasses(): {
     footerContainer: [],
     sidebar: [],
     pageTitle: [],
+    wrapper: [],
   };
 }
 
@@ -57,114 +53,49 @@ export function getEmptyCssClasses(): {
   providedIn: 'root',
 })
 export class LayoutService {
-  public layoutConfigSubject: BehaviorSubject<LayoutType> =
-    new BehaviorSubject<LayoutType>(undefined);
+  public currentLayoutTypeSubject = new BehaviorSubject<LayoutType | null>(
+    null
+  );
+
+  public layoutConfigSubject: BehaviorSubject<ILayout> =
+    new BehaviorSubject<ILayout>(
+      this.getLayoutConfig(this.getBaseLayoutTypeFromRouteOrLocalStorage())
+    );
 
   // scope list of css classes
-  private classes: {
-    [key: string]: string[];
-  } = getEmptyCssClasses();
+  private classes: BehaviorSubject<CSSClassesType> =
+    new BehaviorSubject<CSSClassesType>(getEmptyCssClasses());
 
   // scope list of html attributes
-  private attrs: {
-    [key: string]: {
-      [attrName: string]: string | boolean;
-    };
-  } = getEmptyHTMLAttributes();
+  private attrs: BehaviorSubject<HTMLAttributesType> =
+    new BehaviorSubject<HTMLAttributesType>(getEmptyHTMLAttributes());
 
-  // scope list of body css variables
-  private cssVariables: ILayoutCSSVariables;
+  constructor(private activatedRoute: ActivatedRoute) {}
 
-  constructor() {}
-
-  initConfig(): void {
-    const configFromLocalStorage = localStorage.getItem(
-      LAYOUT_CONFIG_LOCAL_STORAGE_KEY
-    );
-    if (configFromLocalStorage) {
-      try {
-        this.layoutConfigSubject.next(JSON.parse(configFromLocalStorage));
-        return;
-      } catch (error) {
-        this.removeConfig();
-        console.error('config parse from local storage', error);
-      }
-    }
-    this.layoutConfigSubject.next(DefaultLayoutConfig);
-  }
-
-  private removeConfig(): void {
-    localStorage.removeItem(LAYOUT_CONFIG_LOCAL_STORAGE_KEY);
-  }
-
-  refreshConfigToDefault(): void {
-    this.setConfigWithPageRefresh(undefined);
-  }
-
-  getConfig(): ILayout {
-    const config = this.layoutConfigSubject.value;
-    if (!config) {
-      return DefaultLayoutConfig;
+  getProp(path: string, config?: ILayout): string | boolean | undefined | Object {
+    if (config) {
+      return objectPath.get(config, path);
     }
 
-    return config;
-  }
-
-  setConfig(config: LayoutType) {
-    if (!config) {
-      this.removeConfig();
-    } else {
-      localStorage.setItem(
-        LAYOUT_CONFIG_LOCAL_STORAGE_KEY,
-        JSON.stringify(config)
-      );
-    }
-    this.layoutConfigSubject.next(config);
-  }
-
-  updateConfig(fieldsToUpdate: Partial<ILayout>) {
-    const config = this.layoutConfigSubject.value;
-    if (!config) {
-      return;
-    }
-
-    const updatedConfig = { ...config, ...fieldsToUpdate };
-    this.classes = getEmptyCssClasses();
-    this.cssVariables = getEmptyCSSVariables();
-    this.attrs = Object.assign({}, getEmptyHTMLAttributes());
-    this.layoutConfigSubject.next(updatedConfig);
-  }
-
-  setConfigWithoutLocalStorageChanges(config: LayoutType) {
-    this.layoutConfigSubject.next(config);
-  }
-
-  setConfigWithPageRefresh(config: LayoutType) {
-    this.setConfig(config);
-    document.location.reload();
-  }
-
-  getProp(path: string): string | boolean | undefined | Object {
-    const layoutConfig = this.layoutConfigSubject.value;
-    if (!layoutConfig) {
-      return;
-    }
-
-    return objectPath.get(layoutConfig, path);
+    return objectPath.get(this.layoutConfigSubject.value, path);
   }
 
   setCSSClass(path: string, classesInStr: string) {
-    const cssClasses = this.classes[path];
+    const updatedCssClasses = { ...this.classes.value };
+    const cssClasses = updatedCssClasses[path];
     if (!cssClasses) {
-      this.classes[path] = [];
+      updatedCssClasses[path] = [];
     }
+
     classesInStr
       .split(' ')
-      .forEach((cssClass: string) => this.classes[path].push(cssClass));
+      .forEach((cssClass: string) => updatedCssClasses[path].push(cssClass));
+
+    this.classes.next(updatedCssClasses);
   }
 
   getCSSClasses(path: string): string[] {
-    const cssClasses = this.classes[path];
+    const cssClasses = this.classes.value[path];
     if (!cssClasses) {
       return [];
     }
@@ -179,7 +110,7 @@ export class LayoutService {
   getHTMLAttributes(path: string): {
     [attrName: string]: string | boolean;
   } {
-    const attributesObj = this.attrs[path];
+    const attributesObj = this.attrs.value[path];
     if (!attributesObj) {
       return {};
     }
@@ -187,10 +118,110 @@ export class LayoutService {
   }
 
   setHTMLAttribute(path: string, attrKey: string, attrValue: string | boolean) {
-    const attributesObj = this.attrs[path];
+    const updatedAttributes = { ...this.attrs.value };
+    const attributesObj = updatedAttributes[path];
     if (!attributesObj) {
-      this.attrs[path] = {};
+      updatedAttributes[path] = {};
     }
-    this.attrs[path][attrKey] = attrValue;
+    updatedAttributes[path][attrKey] = attrValue;
+    this.attrs.next(updatedAttributes);
+  }
+
+  getBaseLayoutTypeFromRouteOrLocalStorage(): LayoutType {
+    const routeData = this.activatedRoute?.firstChild?.snapshot?.data;
+    if (routeData && routeData.layout) {
+      return routeData.layout as LayoutType;
+    }
+
+    return this.getBaseLayoutTypeFromLocalStorage();
+  }
+
+  getBaseLayoutTypeFromLocalStorage(): LayoutType {
+    if (localStorage) {
+      const layoutType = localStorage.getItem(
+        BASE_LAYOUT_TYPE_LOCAL_STORAGE_KEY
+      );
+      if (layoutType) {
+        return layoutType as LayoutType;
+      }
+
+      this.setBaseLayoutType(defaultBaseLayoutType);
+    }
+    return defaultBaseLayoutType;
+  }
+
+  getLayoutByType(layoutType: LayoutType | undefined): ILayout {
+    switch (layoutType) {
+      case 'dark-sidebar':
+        return DarkSidebarConfig;
+      case 'light-sidebar':
+        return LightSidebarConfig;
+      case 'dark-header':
+        return DarkHeaderConfig;
+      case 'light-header':
+        return LightHeaderConfig;
+      default:
+        return defaultLayoutConfig;
+    }
+  }
+
+  getLayoutConfig(layoutType: LayoutType): ILayout {
+    const storedLayoutType = this.getBaseLayoutTypeFromLocalStorage();
+    if (layoutType && storedLayoutType) {
+      const configInString = localStorage.getItem(
+        `${layoutType}-${LAYOUT_CONFIG_LOCAL_STORAGE_KEY}`
+      );
+
+      if (configInString) {
+        try {
+          return JSON.parse(configInString) as ILayout;
+        } catch (ex) {
+          console.log('reading config exception', ex);
+        }
+      }
+    }
+
+    return this.getLayoutByType(layoutType);
+  }
+
+  setBaseLayoutType(layoutType: LayoutType) {
+    const config = this.getLayoutByType(layoutType);
+    if (localStorage) {
+      localStorage.setItem(BASE_LAYOUT_TYPE_LOCAL_STORAGE_KEY, layoutType);
+      localStorage.setItem(
+        `${layoutType}-${LAYOUT_CONFIG_LOCAL_STORAGE_KEY}`,
+        JSON.stringify(config)
+      );
+    }
+    // document.location.reload();
+  }
+
+  saveBaseConfig(config: ILayout) {
+    const baseLayoutType = this.getBaseLayoutTypeFromLocalStorage();
+    if (localStorage) {
+      localStorage.setItem(
+        `${baseLayoutType}-${LAYOUT_CONFIG_LOCAL_STORAGE_KEY}`,
+        JSON.stringify(config)
+      );
+    }
+
+    document.location.reload();
+  }
+
+  resetBaseConfig() {
+    const layoutType = this.getBaseLayoutTypeFromLocalStorage;
+
+    if (localStorage) {
+      localStorage.removeItem(
+        `${layoutType}-${LAYOUT_CONFIG_LOCAL_STORAGE_KEY}`
+      );
+    }
+
+    document.location.reload();
+  }
+
+  reInitProps() {
+    this.classes.next(getEmptyCssClasses());
+    this.attrs.next(getEmptyHTMLAttributes());
   }
 }

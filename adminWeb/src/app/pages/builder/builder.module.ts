@@ -5,6 +5,7 @@ import { BuilderComponent } from './builder.component';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { InlineSVGModule } from 'ng-inline-svg-2';
+import { SharedModule } from "../../_metronic/shared/shared.module";
 
 @NgModule({
   declarations: [BuilderComponent],
@@ -13,6 +14,7 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
     FormsModule,
     InlineSVGModule,
     NgbTooltipModule,
+    SharedModule,
     RouterModule.forChild([
       {
         path: '',

@@ -3,12 +3,10 @@
   data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
   <ng-container *ngIf="mode$ | async as mode">
     <ng-container *ngIf="mode === 'dark'">
-      <span [inlineSVG]="'./assets/media/icons/duotune/general/gen061.svg'" [ngClass]="toggleBtnIconClass"
-        class="svg-icon theme-light-hide"></span>
+      <app-keenicon name="moon" class="fs-2 fs-lg-1 theme-light-hide" [ngClass]="toggleBtnIconClass"></app-keenicon>
     </ng-container>
     <ng-container *ngIf="mode === 'light'">
-      <span [inlineSVG]="'./assets/media/icons/duotune/general/gen060.svg'" [ngClass]="toggleBtnIconClass"
-        class="svg-icon theme-dark-hide"></span>
+      <app-keenicon name="night-day" class="fs-2 fs-lg-1 theme-dark-hide" [ngClass]="toggleBtnIconClass"></app-keenicon>
     </ng-container>
   </ng-container>
 </div>
@@ -23,7 +21,7 @@
     <div class='menu-item px-3 my-0'>
       <a class="menu-link px-3 py-2" [ngClass]="{'active': menuMode === 'light'}" (click)="switchMode('light')">
         <span class='menu-icon' data-kt-element='icon'>
-          <span [inlineSVG]="'./assets/media/icons/duotune/general/gen060.svg'" class="svg-icon svg-icon-3"></span>
+          <app-keenicon name="night-day" class="fs-3"></app-keenicon>
         </span>
         <span class='menu-title'>Light</span>
       </a>
@@ -34,7 +32,7 @@
     <div class='menu-item px-3 my-0'>
       <a class="menu-link px-3 py-2" [ngClass]="{'active': menuMode === 'dark'}" (click)="switchMode('dark')">
         <span class='menu-icon' data-kt-element='icon'>
-          <span [inlineSVG]="'./assets/media/icons/duotune/general/gen061.svg'" class="svg-icon svg-icon-3"></span>
+          <app-keenicon name="moon" class="fs-3"></app-keenicon>
         </span>
         <span class='menu-title'>Dark</span>
       </a>
@@ -45,7 +43,7 @@
     <div class='menu-item px-3 my-0'>
       <a class="menu-link px-3 py-2" [ngClass]="{'active': menuMode === 'system'}" (click)="switchMode('system')">
         <span class='menu-icon' data-kt-element='icon'>
-          <span [inlineSVG]="'./assets/media/icons/duotune/general/gen062.svg'" class="svg-icon svg-icon-3"></span>
+          <app-keenicon name="screen" class="fs-3"></app-keenicon>
         </span>
         <span class='menu-title'>System</span>
       </a>

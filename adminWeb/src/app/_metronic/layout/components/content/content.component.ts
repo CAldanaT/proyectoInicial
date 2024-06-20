@@ -1,25 +1,23 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NavigationCancel, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { DrawerComponent } from '../../../kt/components';
-import {LayoutService} from "../../core/layout.service";
+// import { DrawerComponent } from '../../../kt/components';
 @Component({
   selector: 'app-content',
   templateUrl: './content.component.html',
   styleUrls: ['./content.component.scss'],
 })
 export class ContentComponent implements OnInit, OnDestroy {
+  @Input() contentContainerCSSClass: string = '';
+  @Input() appContentContiner?: 'fixed' | 'fluid';
+  @Input() appContentContainerClass: string = '';
+
   private unsubscribe: Subscription[] = [];
 
-  asideCSSClasses: string;
-  asideDisplay: boolean;
-
-  constructor(private router: Router, private layout: LayoutService) {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.routingChanges();
-    this.asideDisplay = this.layout.getProp('aside.display') as boolean;
-    this.asideCSSClasses = this.layout.getStringCSSClasses('aside');
   }
 
   routingChanges() {

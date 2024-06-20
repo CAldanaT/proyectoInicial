@@ -2,14 +2,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { LayoutService } from '../../_metronic/layout';
 
-type Tabs = 'Header' | 'Toolbar' | 'PageTitle' | 'Aside' | 'Content' | 'Footer';
+type Tabs = 'Sidebar' | 'Header' | 'Toolbar';
 
 @Component({
   selector: 'app-builder',
   templateUrl: './builder.component.html',
 })
 export class BuilderComponent implements OnInit {
-  activeTab: Tabs = 'Header';
+  activeTab: Tabs = 'Sidebar';
   model: any;
   @ViewChild('form', { static: true }) form: NgForm;
   configLoading: boolean = false;
@@ -17,7 +17,9 @@ export class BuilderComponent implements OnInit {
   constructor(private layout: LayoutService) {}
 
   ngOnInit(): void {
-    this.model = this.layout.getConfig();
+    this.model = this.layout.getLayoutConfig(
+      this.layout.getBaseLayoutTypeFromLocalStorage()
+    );
   }
 
   setActiveTab(tab: Tabs) {
@@ -26,12 +28,11 @@ export class BuilderComponent implements OnInit {
 
   resetPreview(): void {
     this.resetLoading = true;
-    this.layout.refreshConfigToDefault();
+    this.layout.resetBaseConfig();
   }
 
   submitPreview(): void {
     this.configLoading = true;
-    this.layout.setConfig(this.model);
-    location.reload();
+    this.layout.saveBaseConfig(this.model); // it will refresh the page
   }
 }

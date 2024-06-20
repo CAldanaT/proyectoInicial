@@ -738,6 +738,8 @@ class MenuComponent {
       return
     }
 
+    this._hideAccordions(element)
+
     // Dismiss all shown dropdowns
     MenuComponent.hideDropdowns(undefined)
     EventHandlerUtil.trigger(this.element, 'kt.menu.link.clicked')

@@ -55,7 +55,7 @@ export class ThemeModeService {
   public updateMode(_mode: ThemeModeType) {
     const updatedMode = _mode === 'system' ? systemMode : _mode;
     this.mode.next(updatedMode);
-    themeModeSwitchHelper(updatedMode);
+    // themeModeSwitchHelper(updatedMode)
     if (localStorage) {
       localStorage.setItem(themeModeLSKey, updatedMode);
     }
@@ -74,7 +74,6 @@ export class ThemeModeService {
   public init() {
     this.updateMode(this.mode.value);
     this.updateMenuMode(this.menuMode.value);
-    themeModeSwitchHelper(this.mode.value);
   }
 
   public switchMode(_mode: ThemeModeType) {
@@ -83,6 +82,6 @@ export class ThemeModeService {
       localStorage.setItem(themeModeLSKey, updatedMode);
       localStorage.setItem(themeMenuModeLSKey, _mode);
     }
-    document.location.reload();
+    document.location.reload()
   }
 }

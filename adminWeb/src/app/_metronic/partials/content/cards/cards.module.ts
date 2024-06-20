@@ -9,6 +9,7 @@ import { Card4Component } from './card4/card4.component';
 import { Card5Component } from './card5/card5.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { DropdownMenusModule } from '../dropdown-menus/dropdown-menus.module';
+import { SharedModule } from "../../../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { DropdownMenusModule } from '../dropdown-menus/dropdown-menus.module';
     InlineSVGModule,
     NgbTooltipModule,
     DropdownMenusModule,
+    SharedModule
   ],
   exports: [
     Card1Component,

@@ -1,18 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { LayoutService } from '../../core/layout.service';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss'],
 })
-export class FooterComponent implements OnInit {
-  footerContainerCssClasses: string = '';
-  currentDateStr: string = new Date().getFullYear().toString();
-  constructor(private layout: LayoutService) {}
+export class FooterComponent {
+  @Input() appFooterContainerCSSClass: string = '';
 
-  ngOnInit(): void {
-    this.footerContainerCssClasses =
-      this.layout.getStringCSSClasses('footerContainer');
-  }
+  currentDateStr: string = new Date().getFullYear().toString();
+  constructor() {}
 }
