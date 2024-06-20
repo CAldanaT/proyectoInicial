@@ -1,10 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PageSizes, PaginatorState } from '../../models/paginator.model';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-paginator',
   templateUrl: './paginator.component.html',
-  styleUrls: ['./paginator.component.scss']
+  styleUrls: ['./paginator.component.scss'],
+  standalone: true,
+  imports: [NgbPaginationModule, FormsModule, ReactiveFormsModule]
 })
 export class PaginatorComponent implements OnInit {
   @Input()
