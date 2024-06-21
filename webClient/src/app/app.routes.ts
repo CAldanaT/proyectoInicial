@@ -5,7 +5,11 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path:'',
-    loadChildren: () => import("./modules/home/home.module").then(m => m.HomeModule),
+    loadComponent: () => import("./componets/home/home.component").then(m => m.HomeComponent),
+  },
+  {
+    path:'auth',
+    loadComponent: () => import("./componets/auth-profile/auth-profile.component").then(o => o.AuthProfileComponent)
   },
   {
     path: '',

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from '../../shared/header/header.component';
-import { FooterComponent } from '../../shared/footer/footer.component';
+import { HeaderComponent } from '../shared/header/header.component';
+import { FooterComponent } from '../shared/footer/footer.component';
 
 declare var $:any;
 declare function pageInit([]):any;
@@ -13,8 +13,7 @@ declare function pageInit([]):any;
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  constructor(){
-
+  ngOnInit(): void {
     setTimeout(() => {
       pageInit($);
     }, 50);
