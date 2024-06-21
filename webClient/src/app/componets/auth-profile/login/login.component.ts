@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 
+declare var $:any;
+declare function pageInit([]):any;
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -8,5 +11,9 @@ import { Component } from '@angular/core';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-
+  ngOnInit(): void {
+    setTimeout(() => {
+      pageInit($);
+    }, 50);
+  }
 }

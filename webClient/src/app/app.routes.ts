@@ -2,12 +2,12 @@ import { Routes } from '@angular/router'
 
 export const routes: Routes = [
   {
-    path:'',
-    loadComponent: () => import("./componets/home/home.component").then(o => o.HomeComponent),
+    path:'auth',
+    loadChildren: () => import("./componets/auth-profile/auth-profile.routes")
   },
   {
-    path:'login',
-    loadComponent: () => import("./componets/login/login.component").then(o => o.LoginComponent)
+    path:'',
+    loadComponent: () => import("./componets/home/home.component").then(o => o.HomeComponent),
   },
   {
     path: '',
