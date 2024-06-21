@@ -1,17 +1,21 @@
 import { Routes } from '@angular/router'
+import { AuthProfileComponent } from './componets/auth-profile/auth-profile.component'
+import { HomeComponent } from './componets/home/home.component'
+import { AppComponent } from './app.component'
 
 export const routes: Routes = [
   {
     path:'auth',
+    component:AuthProfileComponent,
     loadChildren: () => import("./componets/auth-profile/auth-profile.routes")
   },
   {
     path:'',
-    loadComponent: () => import("./componets/home/home.component").then(o => o.HomeComponent),
+    component:HomeComponent
   },
   {
     path: '',
-    redirectTo: '/',
+    redirectTo: '',
     pathMatch:'full'
   },
   {
