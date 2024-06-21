@@ -9,7 +9,13 @@ export const routes: Routes = [
   },
   {
     path:'auth',
-    loadComponent: () => import("./componets/auth-profile/auth-profile.component").then(o => o.AuthProfileComponent)
+    loadComponent: () => import("./componets/home/home.component").then(o => o.HomeComponent),
+    children:[
+      {
+        path:'login',
+        loadComponent: () => import("./componets/auth-profile/auth-profile.component").then(o => o.AuthProfileComponent)
+      }
+    ]
   },
   {
     path: '',
