@@ -1,6 +1,4 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router'
 
 export const routes: Routes = [
   {
@@ -9,11 +7,10 @@ export const routes: Routes = [
   },
   {
     path:'auth',
-    loadComponent: () => import("./componets/home/home.component").then(o => o.HomeComponent),
-    children:[
+    children: [
       {
         path:'login',
-        loadComponent: () => import("./componets/auth-profile/auth-profile.component").then(o => o.AuthProfileComponent)
+        loadChildren: () => import("./componets/auth-profile/auth-profile.component")
       }
     ]
   },
@@ -27,15 +24,3 @@ export const routes: Routes = [
     redirectTo: 'error/404'
   }
 ]
-
-@NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    RouterModule.forRoot(routes, {
-      preloadingStrategy: PreloadAllModules
-    }),
-  ],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
