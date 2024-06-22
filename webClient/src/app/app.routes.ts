@@ -1,7 +1,7 @@
-import { Routes } from '@angular/router'
-import { AuthProfileComponent } from './componets/auth-profile/auth-profile.component'
-import { HomeComponent } from './componets/home/home.component'
-import { AppComponent } from './app.component'
+import { Routes } from '@angular/router';
+import { AuthProfileComponent } from './componets/auth-profile/auth-profile.component';
+import { HomeComponent } from './componets/home/home.component';
+import { AppComponent } from './app.component';
 
 export const routes: Routes = [
   {
