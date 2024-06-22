@@ -13,9 +13,9 @@ declare function pageInit([]):any;
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  ngOnInit(): void {
-    setTimeout(() => {
-      pageInit($);
-    }, 50);
-  }
+  // ngOnInit(): void {
+  //   setTimeout(() => {
+  //     pageInit($);
+  //   }, 50);
+  // }
 }

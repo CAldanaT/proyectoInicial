@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
-import { HomeComponent } from './componets/home/home.component';
+
+declare var $:any;
+declare function pageInit([]):any;
 
 @Component({
   selector: 'app-root',
@@ -12,5 +15,9 @@ import { HomeComponent } from './componets/home/home.component';
 export class AppComponent {
   title = 'webClient';
 
-  
+  ngOnInit(): void {
+    setTimeout(() => {
+      pageInit($);
+    }, 50);
+  }
 }

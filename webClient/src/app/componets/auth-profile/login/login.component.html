@@ -10,18 +10,18 @@
                 <div class="register_form padding_default shadow_sm">
                     <h4 class="title_2">Login</h4>
                     <p class="mb-4 text_md">Login if you a a returing customer</p>
-                    <form action="">
+                    <form action="" (submit)="login()">
                         <div class="row">
                             <div class="col-12">
                                 <div class="single_billing_inp">
-                                    <label>Email Address <span>*</span></label>
-                                    <input type="email" placeholder="example@mail.com">
+                                    <label>Email Address {{email}}<span>*</span></label>
+                                    <input type="email" [(ngModel)]="email" [ngModelOptions]="{standalone:true}" placeholder="example@mail.com">
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="single_billing_inp">
                                     <label>Password <span>*</span></label>
-                                    <input type="password" placeholder="type password">
+                                    <input type="password" [(ngModel)]="password" [ngModelOptions]="{standalone:true}" placeholder="type password">
                                 </div>
                             </div>
                             <div class="col-12 mt-2 d-flex justify-content-between align-items-center">
