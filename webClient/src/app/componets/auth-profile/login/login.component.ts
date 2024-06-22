@@ -24,7 +24,8 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.authSerice.login(this.email, this.password).subscribe((response:any) => {
+    this.authSerice.login(this.email, this.password)
+    .subscribe((response:any) => {
       console.log(response);
     })
   }
