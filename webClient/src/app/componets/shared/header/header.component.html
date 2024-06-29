@@ -531,7 +531,7 @@
                                  <i class="icon-cart"></i>
                                 <label>My Cart</label>
                             </a>
-                            <a *ngIf="!isLoggedIn" href="#" onclick="return false;" (click)="logout()">
+                            <a *ngIf="isLoggedIn" href="#" onclick="return false;" (click)="logout()">
                                 <i class="las la-power-off"></i>
                                 Log out
                             </a>

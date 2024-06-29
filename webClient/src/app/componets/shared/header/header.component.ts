@@ -16,11 +16,11 @@ export class HeaderComponent implements OnInit {
   user:any;
   isLoggedIn:any;
 
-  constructor(public dataEntryService: DataEntryService, public authService:AuthService){}
+  constructor(public authService:AuthService){}
 
   ngOnInit(): void {
-    this.user = this.dataEntryService.getData("user");
-    this.isLoggedIn = this.dataEntryService.getData("isLoggedIn");
+    this.user = this.authService.user;
+    this.isLoggedIn = this.authService.isLoggedIn;
   }
 
   logout(){

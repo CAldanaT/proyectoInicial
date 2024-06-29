@@ -13,8 +13,15 @@ import { DataEntryService } from './dataentry.service';
 export class AuthService {
   user:any;
   token: any;
+  isLoggedIn: any;
 
-  constructor(private http: HttpClient, private router: Router) { 
+  constructor(private http: HttpClient, private router: Router, private dataEntryService: DataEntryService) { 
+    this.loadStorage();
+  }
+
+  loadStorage(){
+    this.user = this.dataEntryService.getData("user");
+    this.isLoggedIn = this.dataEntryService.getData("isLoggedIn");
   }
 
   login(email: string, password: string){
@@ -37,7 +44,6 @@ export class AuthService {
   }
 
   logout(){
-    localStorage.setItem("isLoggedIn", 'false');
     this.user = null;
     this.token = null;
     localStorage.clear();
