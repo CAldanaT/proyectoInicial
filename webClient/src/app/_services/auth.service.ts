@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
+import { DataEntryService } from './dataentry.service';
 //import { Restangular } from 'ng2-restangular';
 
 @Injectable({
@@ -12,17 +13,14 @@ import { of } from 'rxjs/internal/observable/of';
 export class AuthService {
 
   user:any;
-  token: string | undefined;
-
-  //, private restangular: Restangular
+  token: any;
 
   constructor(private http: HttpClient, private router: Router) { 
   }
 
-  login(email: string, password: string){
-    let url = environment.URL_SERVICES + '/users/login';
 
-    return this.http.post(url, {email, password}).pipe(
+  login(email: string, password: string){
+    return this.http.post(environment.URL_SERVICES + '/api/users/login', {email, password}).pipe(
       map((response:any) => {
         if(response && response.access_token){
           return this.saveLocalStorageResponse(response);
@@ -34,6 +32,17 @@ export class AuthService {
         return of(error);
       })
     )
+  }
+
+  register(newUser: any){
+    return this.http.post(environment.URL_SERVICES + '/api/users/register', newUser)
+  }
+
+  logout(){
+    this.user = null;
+    this.token = null;
+    localStorage.clear();
+    this.router.navigate(['auth/login']);
   }
 
   // loginv2(email: string, password: string) {
@@ -59,6 +68,7 @@ export class AuthService {
     if(obj && obj.user && obj.access_token){
       localStorage.setItem("token", obj.access_token);
       localStorage.setItem("user", JSON.stringify(obj.user));
+
       this.token = obj.access_token;
       this.user = obj.user;
 

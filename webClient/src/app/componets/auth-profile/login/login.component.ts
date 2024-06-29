@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
 
   login(){
     if(!this.email || !this.password){
-      this.toasttr.error("The user and password are required.");
+      this.toasttr.error("Username and password are required.");
       return;
     }
 
@@ -30,7 +30,8 @@ export class LoginComponent implements OnInit {
       if(!response.error && response){
         //add positive validation
       }else{
-        this.toasttr.error(response.error.error, 'Error')
+        if(response.error.error === "Unauthorized")
+          this.toasttr.error("Username or Password is incorrect. Validate ", 'Error');
       }
     })
   }
