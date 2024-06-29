@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
 
   login(){
     if(!this.email || !this.password){
-      this.toasttr.error("Username and password are required.");
+      this.toasttr.error("Username and password are required.", 'Error');
       return;
     }
 

@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 import { DataEntryService } from './dataentry.service';
+import { Observable } from 'rxjs';
 //import { Restangular } from 'ng2-restangular';
 
 @Injectable({
@@ -39,8 +40,8 @@ export class AuthService {
     )
   }
 
-  register(newUser: any){
-    return this.http.post(environment.URL_SERVICES + '/api/users/register', newUser)
+  register(data: any){
+    return this.http.post(environment.URL_SERVICES + '/api/users/register', data);
   }
 
   logout(){

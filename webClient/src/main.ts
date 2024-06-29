@@ -11,7 +11,7 @@ bootstrapApplication(AppComponent, {
     provideAnimationsAsync(),
     provideRouter(routes), 
     provideHttpClient(),
-    provideToastr({timeOut:1000, positionClass: 'toast-bottom-right'})
+    provideToastr({timeOut:1000, positionClass: 'toast-bottom-right'}), provideAnimationsAsync()
   ]
 
 })
