@@ -11,13 +11,11 @@ import { DataEntryService } from './dataentry.service';
   providedIn: 'root'
 })
 export class AuthService {
-
   user:any;
   token: any;
 
   constructor(private http: HttpClient, private router: Router) { 
   }
-
 
   login(email: string, password: string){
     return this.http.post(environment.URL_SERVICES + '/api/users/login', {email, password}).pipe(
@@ -39,6 +37,7 @@ export class AuthService {
   }
 
   logout(){
+    localStorage.setItem("isLoggedIn", 'false');
     this.user = null;
     this.token = null;
     localStorage.clear();
@@ -66,6 +65,7 @@ export class AuthService {
 
   saveLocalStorageResponse(obj:any){
     if(obj && obj.user && obj.access_token){
+      localStorage.setItem("isLoggedIn", 'true');
       localStorage.setItem("token", obj.access_token);
       localStorage.setItem("user", JSON.stringify(obj.user));
 

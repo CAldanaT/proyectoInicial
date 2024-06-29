@@ -506,11 +506,10 @@
                     <div class="myacc_cont">
                         <div class="ac_join">
                             <p>
-                                <a href="#" (click)="printConsole()">Hola</a>
-                                <label hidden="!use || !user.name">Hi {{user.name}}</label>
+                                <label *ngIf="isLoggedIn">Hi {{user.name}}</label>
                                 <label>Welcome to RAFCART Shop</label>
                             </p>
-                            <div class="account_btn d-flex justify-content-between">
+                            <div class="account_btn d-flex justify-content-between" *ngIf="!isLoggedIn">
                                <a routerLink="/auth/register" class="default_btn">Join</a>
                                 <a routerLink="/auth/login" class="default_btn second">Sing in</a>
                             </div>
@@ -530,9 +529,9 @@
                             </a>
                             <a href="shopping-cart.html">
                                  <i class="icon-cart"></i>
-                                My Cart
+                                <label>My Cart</label>
                             </a>
-                            <a href="#" onclick="return false;" (click)="logout()">
+                            <a *ngIf="!isLoggedIn" href="#" onclick="return false;" (click)="logout()">
                                 <i class="las la-power-off"></i>
                                 Log out
                             </a>

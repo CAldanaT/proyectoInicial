@@ -7,10 +7,10 @@ export class DataEntryService {
 
   getData(name:string){
     if(name.length <= 0)
-      return {};
+      return null;
 
     if(!name || !localStorage.getItem(name))
-      return {};
+      return null;
 
       return JSON.parse(localStorage.getItem(name) ?? '')
   }
