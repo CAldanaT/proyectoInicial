@@ -7,6 +7,7 @@ import { FormGroup, FormControl, Validators, FormBuilder }  from '@angular/forms
 import { ConfirmPasswordValidator } from './confirm-password.validator';
 import { UserModel } from '../../../_models/user.model';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -20,10 +21,15 @@ export class RegisterComponent implements OnInit {
   registrationForm?: any;
   hasError?: boolean;
 
-  constructor(public authService:AuthService, public fb: FormBuilder, private toasttr : ToastrService){
+  constructor(public authService:AuthService, public fb: FormBuilder, private toasttr : ToastrService, private router:Router){
   }
 
   ngOnInit(): void {
+
+    if(this.authService.user && this.authService.isLoggedIn){
+      this.router.navigate(['/'])
+    }
+
     this.initForm();
   }
 
@@ -33,14 +39,14 @@ export class RegisterComponent implements OnInit {
 
   initForm(){
     this.registrationForm = this.fb.group({
-      userName: ['', 
+      name: ['', 
         Validators.compose([
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(255)
         ])
       ],
-      userEmail: ['qwe@qwe',
+      email: ['qwe@qwe',
         Validators.compose([
           Validators.required,
           Validators.email,
@@ -48,7 +54,7 @@ export class RegisterComponent implements OnInit {
           Validators.maxLength(255)
         ])
       ],
-      userPassword: [
+      password: [
         '',
         Validators.compose([
           Validators.required,
@@ -56,7 +62,7 @@ export class RegisterComponent implements OnInit {
           Validators.maxLength(100),
         ]),
       ],
-      cUserPassword: [
+      cPassword: [
         '',
         Validators.compose([
           Validators.required,
@@ -73,11 +79,15 @@ export class RegisterComponent implements OnInit {
   }
 
   register(){
-    if(!this.newUser.name || !this.newUser.email || !this.newUser.password || !this.newUser.confirmPassword){
+    if(!this.newUser.name || !this.newUser.email || !this.newUser.password || !this.newUser.cPassword){
       this.toasttr.error("Fields with the symbol * are required", "Error");
       return;
     }
 
+    if(this.newUser.password !== this.newUser.cPassword){
+      this.toasttr.error("Password does not match. Please check it again.")
+      return;
+    }
 
     if(!this.newUser.agree){
       this.toasttr.error("You need to agree to terms & conditions");
@@ -87,6 +97,10 @@ export class RegisterComponent implements OnInit {
     this.hasError = false;
 
 
-    this.authService.register(this.newUser);
+    this.authService.register(this.newUser).subscribe((response:any) => {
+      console.log(response);
+      this.toasttr.success('Registration has been successful.', 'Success');
+      this.router.navigate(['/auth/login']);
+    })
   }
 }

@@ -3,6 +3,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../_services/auth.service';
 import {FormsModule} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { timeout } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -15,9 +17,13 @@ export class LoginComponent implements OnInit {
   email: string | undefined;
   password: string | undefined;
 
-  constructor(public authSerice:AuthService, private toasttr : ToastrService){ }
+  constructor(public authSerice:AuthService, private toasttr : ToastrService, private router:Router){ }
 
-  ngOnInit(): void{ }
+  ngOnInit(): void{ 
+    if(this.authSerice.user && this.authSerice.isLoggedIn){
+      this.router.navigate(['/'])
+    }
+  }
 
   login(){
     if(!this.email || !this.password){
@@ -28,7 +34,13 @@ export class LoginComponent implements OnInit {
     this.authSerice.login(this.email, this.password)
     .subscribe((response:any) => {
       if(!response.error && response){
+        let message = "Hi " + this.authSerice.user.name + " and welcome to RAFCART Shop.";
         //add positive validation
+        document.location.reload();
+
+        setTimeout(() => {
+          this.toasttr.success(message, "Success")
+        }, 1000);
       }else{
         if(response.error.error === "Unauthorized")
           this.toasttr.error("Username or Password is incorrect. Validate ", 'Error');

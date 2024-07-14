@@ -15,7 +15,7 @@
                             <div class="col-12">
                                 <div class="single_billing_inp">
                                     <label>Full Name<span>*</span></label>
-                                    <input type="text" name="userName" [(ngModel)]="newUser.name" formControlName="userName"  placeholder="Jone Doe">
+                                    <input type="text" name="name" [(ngModel)]="newUser.name" formControlName="name"  placeholder="Jone Doe">
                                 </div>
                             </div>
                             <div class="col-12">
@@ -23,19 +23,19 @@
                                     <label for="userEmail"> 
                                         <mat-icon> email</mat-icon> Email Address <span>*</span>
                                     </label>
-                                    <input type="email" name="userEmail" [(ngModel)]="newUser.email" formControlName="userEmail" placeholder="example@mail.com">
+                                    <input type="email" name="email" [(ngModel)]="newUser.email" formControlName="email" placeholder="example@mail.com">
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="single_billing_inp">
                                     <label>Password <span>*</span></label>
-                                    <input type="password" [(ngModel)]="newUser.password" name="userPassword" formControlName="userPassword" placeholder="type password">
+                                    <input type="password" [(ngModel)]="newUser.password" name="password" formControlName="password" placeholder="type password">
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="single_billing_inp">
                                     <label>Confirm Password <span>*</span></label>
-                                    <input type="password" [(ngModel)]="newUser.confirmPassword" name="cUserPassword" formControlName="cUserPassword"  placeholder="confirm your password">
+                                    <input type="password" [(ngModel)]="newUser.cPassword" name="cPassword" formControlName="cPassword"  placeholder="confirm your password">
                                 </div>
                             </div>
                             <div class="col-12 mt-2">
